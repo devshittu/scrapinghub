@@ -1,4 +1,5 @@
 import urllib.request
+import re
 from urllib.error import URLError, HTTPError, ContentTooShortError
 
 def download(url, user_agent='wswp', num_retries=2):
@@ -18,4 +19,16 @@ def download(url, user_agent='wswp', num_retries=2):
  
 # download('https://github.com/richardpenman/whois')
 # download('http://httpstat.us/500')
-download('https://meetup.com')
+# download('https://meetup.com')
+
+def crawl_sitemap(url):
+    # download the sitemap file
+    sitemap = download(url)
+    # extract the sitemap links
+    links = re.findall('<loc>(.*?)</loc>', sitemap)
+    # download each link
+    for link in links:
+        html = download(link)
+        
+
+crawl_sitemap('http://example.webscraping.com/sitemap.xml')
