@@ -32,3 +32,16 @@ def crawl_sitemap(url):
         
 
 crawl_sitemap('http://example.webscraping.com/sitemap.xml')
+
+def crawl_site(url, max_errors=5):
+    for page in itertools.count(1):
+        pg_url = '{}{}'.format(url, page)
+        html = download(pg_url)
+        if html is None:
+            num_errors += 1
+            if num_errors == max_errors:
+                # max errors reached, exit loop
+                break
+        else:
+            num_errors = 0
+            # success - can scrape the result
